@@ -68,7 +68,7 @@ Para una explicación detallada, ver [`docs/arquitectura-final.md`](./docs/arqui
 
 ## 🛠️ Stack tecnológico
 
-- [React](https://react.dev/) 18+
+- [React](https://react.dev/) 
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vitejs.dev/)
 - [date-fns](https://date-fns.org/)
