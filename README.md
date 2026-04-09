@@ -1,73 +1,76 @@
-# React + TypeScript + Vite
+# 📦 React + TypeScript Mini-Projects
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Colección de miniproyectos construidos con **React**, **TypeScript** y **Vite**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 1. `DataTable<T>` — Tabla genérica con edición inline
 
-## React Compiler
+**Archivo:** `src/components/DataTable.tsx`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Componente React genérico que renderiza una tabla a partir de cualquier array de datos tipado. Soporta edición de filas directamente desde la interfaz.
 
-## Expanding the ESLint configuration
+**Características:**
+- Tipado genérico con `T extends { id: string }`, lo que garantiza que las columnas solo referencian claves válidas del modelo.
+- Estado de edición por fila con `useState`, usando `Partial<T>` para actualizaciones progresivas y seguras.
+- Botones de acción por fila: *Editar*, *Guardar* y *Cancelar*.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Uso básico:**
+```tsx
+<DataTable
+  datos={[{ id: "1", nombre: "Ana", edad: "30" }]}
+  columnas={[
+    { cabecera: "Nombre", clave: "nombre" },
+    { cabecera: "Edad", clave: "edad" },
+  ]}
+/>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 2. `diferenciaEnDias` — Utilidad de fechas
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+**Archivo:** `src/utils/diferenciaEnDias.ts`
+
+Función utilitaria que calcula la diferencia en días entre dos fechas usando la librería [`date-fns`](https://date-fns.org/).
+
+**Signatura:**
+```ts
+diferenciaEnDias(fechaInicio: Date, fechaFin: Date): number
 ```
+
+**Ejemplo:**
+```ts
+import { diferenciaEnDias } from "./utils/diferenciaEnDias";
+
+const dias = diferenciaEnDias(new Date("2024-01-01"), new Date("2024-03-01"));
+console.log(dias); // 60
+```
+
+**Ventaja sobre JavaScript puro:** solo acepta objetos `Date` válidos; pasar strings u otros tipos provoca error en compilación, no en ejecución.
+
+---
+
+## 🏗️ Conceptos TypeScript demostrados
+
+| Concepto | Dónde se aplica |
+|---|---|
+| **Genéricos** (`<T>`) | `DataTable<T>` — columnas tipadas sobre el modelo |
+| **`keyof T`** | Garantiza que las claves de columna existen en el tipo |
+| **`Partial<T>`** | Estado temporal de edición sin requerir todos los campos |
+| **Uniones discriminadas** | `EstadoMatricula` con campo `tipo` como discriminante |
+| **Tipo `never`** | Detección de ramas no cubiertas en `switch` exhaustivo |
+| **Librerías tipadas** | `date-fns` con entradas y salidas verificadas en compilación |
+
+Para una explicación detallada, ver [`docs/arquitectura-final.md`](./docs/arquitectura-final.md).
+
+---
+
+## 🛠️ Stack tecnológico
+
+- [React](https://react.dev/) 18+
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [date-fns](https://date-fns.org/)
+- ESLint
+
