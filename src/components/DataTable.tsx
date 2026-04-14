@@ -8,11 +8,13 @@ interface Columna<T> {
 interface DataTableProps<T> {
   datos: T[];
   columnas: Columna<T>[];
+  onGuardar: (filaActualizada: T) => void;
 }
 
 export function DataTable<T extends { id: string }>({
   datos,
   columnas,
+  onGuardar,
 }: DataTableProps<T>) {
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [tempFila, setTempFila] = useState<Partial<T>>({});
@@ -28,7 +30,9 @@ export function DataTable<T extends { id: string }>({
   };
 
   const guardar = () => {
-    console.log("Fila guardada:", tempFila);
+    if (!editandoId) return;
+
+    onGuardar(tempFila as T);
     setEditandoId(null);
     setTempFila({});
   };
